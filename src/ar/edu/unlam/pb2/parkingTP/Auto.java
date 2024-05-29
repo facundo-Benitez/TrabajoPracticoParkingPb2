@@ -1,9 +1,9 @@
 package ar.edu.unlam.pb2.parkingTP;
 
 public class Auto extends Vehiculo {
-    private Integer puertas;
 
-    public Auto(Integer puertas){
-        this.puertas=puertas;
-    }
+	public Auto(String patente, TipoDeVehiculo tipo) {
+		super(patente, tipo);
+	}
+
 }
