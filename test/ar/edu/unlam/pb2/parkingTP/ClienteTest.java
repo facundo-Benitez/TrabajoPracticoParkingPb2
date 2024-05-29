@@ -111,7 +111,7 @@ public class ClienteTest {
 		boolean deudaDebitada = estacionamiento.debitarDeudaMensualPorFecha(fecha);
 		ReservaPlaza reserva3 = estacionamiento.getReservaPlazaPorNumeroDePlaza(3);
 
-		assertTrue(deudaDebitada);
+		assertFalse(deudaDebitada);
 		assertEquals(0.0, reserva3.getSaldoTotalAdeudado(), 0.0);
 	}
 

@@ -15,7 +15,7 @@ public class ReservaPlaza {
     public ReservaPlaza(Plaza plaza, Cliente cliente) {
         this.plaza = plaza;
         this.cliente = cliente;
-        this.deudas = new ArrayList();
+        this.deudas = new ArrayList<>();
     }
 
     public Cliente getCliente() {
