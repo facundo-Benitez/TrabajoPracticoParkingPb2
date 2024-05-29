@@ -1,18 +1,22 @@
 package ar.edu.unlam.pb2.parkingTP;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Estacionamiento implements IEstacionamiento{
 	private String nombreEstacionamiento;
 	private ArrayList <Vehiculo> vehiculos;
 	private ArrayList <Plaza>plazas;
 	private ArrayList <VehiculoPlaza>AsignacionVehiculosplazas;
+	private List<ReservaPlaza> reservasPlaza;
 
 	public Estacionamiento(String nombreEstacionamiento) {
 		this.nombreEstacionamiento = nombreEstacionamiento;
 		this.vehiculos = new ArrayList<>();		
 		this.plazas= new ArrayList<>();
 		this.AsignacionVehiculosplazas= new ArrayList<>();
+		this.reservasPlaza = new ArrayList<>();
 	}
 
 	public String getNombreEstacionamiento() {
@@ -122,6 +126,69 @@ public class Estacionamiento implements IEstacionamiento{
 			}
 		}
 		return seLibero;
+	}
+
+	public boolean verificarSiPlazaEstaOcupada(int numero) {
+		for (Plaza plaza : plazas) {
+			if (plaza != null && plaza.getNroDePlaza() == numero) {
+				return plaza.getEstaOcupado();
+			}
+		}
+		return false;
+	}
+
+	public Cliente registrarCliente(String nombre, String telefono) {
+		Cliente cliente = new Cliente(nombre, telefono);
+		return cliente;
+	}
+
+	public boolean asignarPlazaACliente(Cliente cliente) {
+		for (Plaza plaza : plazas) {
+			if (!plaza.getEstaOcupado() && plaza.getTipo().equals(TipoDeVehiculo.AUTO)) {
+				reservasPlaza.add(new ReservaPlaza(plaza, cliente));
+				plaza.setEstaOcupado(true);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean darDeBajaReserva(int numeroDePlaza) {
+		for (ReservaPlaza reserva : reservasPlaza) {
+			if (reserva.getSaldoTotalAdeudado() == 0.0) {
+				reservasPlaza.remove(reserva);
+				for (Plaza plaza : plazas) {
+					if (plaza.getNroDePlaza() == numeroDePlaza) {
+						plaza.setEstaOcupado(false);
+					}
+					return true;
+				}
+			} else {
+				// ToDo
+			}
+		}
+		return false;
+	}
+
+	public ReservaPlaza getReservaPlazaPorNumeroDePlaza(int numeroDePlaza) {
+		for (ReservaPlaza reservaPlaza : reservasPlaza) {
+			if (reservaPlaza.getPlaza().getNroDePlaza() == numeroDePlaza) {
+				return reservaPlaza;
+			}
+		}
+
+		return null;
+	}
+
+	public boolean debitarDeudaMensualPorFecha(LocalDate fecha) {
+		if (fecha.getDayOfMonth() == 1) {
+			for (ReservaPlaza reserva : reservasPlaza) {
+				reserva.debitarDeuda(fecha.getMonthValue());
+			}
+			return true;
+		}
+		return false;
 	}
 	
 }
