@@ -3,7 +3,7 @@ package ar.edu.unlam.pb2.parkingTP;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Ticket {
+public class Tickets {
 	
 	private Integer id;
 	private LocalDateTime fechaHoraEntrada;
@@ -14,7 +14,7 @@ public class Ticket {
     private static final double HORA_MOTO = 1000;
 	
 	// en realidad se hace un ticket a la entrada ya a la salida se cierra el fechaHoraSalida pero esto es modelo de practica, lo mismo con el costo.
-	public Ticket(Integer id, LocalDateTime fechaHoraEntrada,LocalDateTime fechaHoraSalida, Integer nroPlaza, Double costo) {
+	public Tickets(Integer id, LocalDateTime fechaHoraEntrada,LocalDateTime fechaHoraSalida, Integer nroPlaza, Double costo) {
 		this.id = id;
 		this.fechaHoraEntrada = fechaHoraEntrada;
 		this.fechaHoraSalida= fechaHoraSalida;
@@ -25,15 +25,15 @@ public class Ticket {
 	
 	public double calcularCosto(Vehiculo vehiculo){
 		Double valorVehiculo=getValorVehiculo(vehiculo);
-		Duration tiempoEstadia=calculoTiempoEstadia();
-		
-		return 0.0;
+		Double tiempoEstadiaEnHoras= ((double)calculoTiempoEstadiaEnMinutos()/60); //ponemos el double adelante para que cuente los minutos tambien, sino se come los numeros detras de la coma
+		Double valorTotal=valorVehiculo*tiempoEstadiaEnHoras;
+		setCosto(valorTotal);
+		return valorTotal;
 	}
 	
 	public Double getValorVehiculo(Vehiculo vehiculo){
 		String tipoVehiculo =vehiculo.getClass().getSimpleName();
 		Double valorDependiendoDeVehiculo=0.0;
-		System.out.println(tipoVehiculo);
 		switch(tipoVehiculo) {
 			case "Auto":
 				valorDependiendoDeVehiculo=HORA_COCHE;
@@ -46,9 +46,10 @@ public class Ticket {
 		return valorDependiendoDeVehiculo;
 	}
 	
-	public Duration calculoTiempoEstadia(){
+	public Integer calculoTiempoEstadiaEnMinutos(){
 		Duration tiempoEstadia = Duration.between(this.fechaHoraEntrada, this.fechaHoraSalida);
-		return tiempoEstadia;
+		Integer estadiaEnMinutos =(int) tiempoEstadia.toMinutes();
+		return estadiaEnMinutos;
 		
 	}
 	
@@ -90,5 +91,12 @@ public class Ticket {
 		this.fechaHoraSalida = fechaHoraSalida;
 	}
 
+	public Double getCosto(){
+		return costo;
+	}
+
+	public void setCosto(Double costoNuevo){
+		this.costo=costoNuevo;
+	}
 }
 	
