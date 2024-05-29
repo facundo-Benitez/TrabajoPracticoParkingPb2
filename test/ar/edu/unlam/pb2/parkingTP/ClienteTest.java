@@ -108,9 +108,10 @@ public class ClienteTest {
 		registrarClienteYAsignarlePlaza(3, "Estefania", "20589002");
 		LocalDate fecha = LocalDate.of(2024, 5, 17);
 
-		estacionamiento.debitarDeudaMensualPorFecha(fecha);
+		boolean deudaDebitada = estacionamiento.debitarDeudaMensualPorFecha(fecha);
 		ReservaPlaza reserva3 = estacionamiento.getReservaPlazaPorNumeroDePlaza(3);
 
+		assertTrue(deudaDebitada);
 		assertEquals(0.0, reserva3.getSaldoTotalAdeudado(), 0.0);
 	}
 
