@@ -155,17 +155,21 @@ public class Estacionamiento implements IEstacionamiento{
 	}
 
 	public boolean darDeBajaReserva(int numeroDePlaza) {
+		ReservaPlaza reservaPlazaARemover = null;
+
 		for (ReservaPlaza reserva : reservasPlaza) {
-			if (reserva.getSaldoTotalAdeudado() == 0.0) {
-				reservasPlaza.remove(reserva);
-				for (Plaza plaza : plazas) {
-					if (plaza.getNroDePlaza() == numeroDePlaza) {
-						plaza.setEstaOcupado(false);
-					}
+			if (reserva.getPlaza().getNroDePlaza() == numeroDePlaza && reserva.getSaldoTotalAdeudado() == 0.0) {
+				reservaPlazaARemover = reserva;
+			}
+		}
+
+		if (reservaPlazaARemover != null) {
+			reservasPlaza.remove(reservaPlazaARemover);
+			for (Plaza plaza : plazas) {
+				if (plaza.getNroDePlaza() == numeroDePlaza) {
+					plaza.setEstaOcupado(false);
 					return true;
 				}
-			} else {
-				// ToDo
 			}
 		}
 		return false;

@@ -53,7 +53,7 @@ public class ClienteTest {
 
 		boolean reservaEliminada = estacionamiento.darDeBajaReserva(2);
 
-		assertFalse(!reservaEliminada);
+		assertFalse(reservaEliminada);
 	}
 
 	@Test
