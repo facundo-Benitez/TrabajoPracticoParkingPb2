@@ -2,6 +2,7 @@ package ar.edu.unlam.pb2.parkingTP;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Tickets {
 	
@@ -11,18 +12,23 @@ public class Tickets {
 	private Integer nroPlaza;
 	private Double costo;
 	private static final double HORA_COCHE = 2000.0;
-    private static final double HORA_MOTO = 1000;
+    private static final double HORA_MOTO = 1000.0;
+	private static final double HORA_BICI = 500.0
+	private static final double HORA_CAMIONETA =2500.0
 	
 	// en realidad se hace un ticket a la entrada ya a la salida se cierra el fechaHoraSalida pero esto es modelo de practica, lo mismo con el costo.
-	public Tickets(Integer id, LocalDateTime fechaHoraEntrada,LocalDateTime fechaHoraSalida, Integer nroPlaza, Double costo) {
+	public Tickets(Integer id, LocalDateTime fechaHoraEntrada, Integer nroPlaza) {
 		this.id = id;
 		this.fechaHoraEntrada = fechaHoraEntrada;
-		this.fechaHoraSalida= fechaHoraSalida;
 		this.nroPlaza = nroPlaza;
-		this.costo = costo;
 	}
 	
-	
+	public Boolean registrarSalida(LocalDateTime retiro){
+		setFechaHoraSalida(retiro);
+		return true;
+	}
+
+
 	public double calcularCosto(Vehiculo vehiculo){
 		Double valorVehiculo=getValorVehiculo(vehiculo);
 		Double tiempoEstadiaEnHoras= ((double)calculoTiempoEstadiaEnMinutos()/60); //ponemos el double adelante para que cuente los minutos tambien, sino se come los numeros detras de la coma
@@ -32,15 +38,23 @@ public class Tickets {
 	}
 	
 	public Double getValorVehiculo(Vehiculo vehiculo){
-		String tipoVehiculo =vehiculo.getClass().getSimpleName();
+		TipoDeVehiculo tipoVehiculo =vehiculo.getTipo();
 		Double valorDependiendoDeVehiculo=0.0;
 		switch(tipoVehiculo) {
-			case "Auto":
+			case CAMIONETA:
+				valorDependiendoDeVehiculo=HORA_CAMIONETA;
+				break;
+
+			case AUTO:
 				valorDependiendoDeVehiculo=HORA_COCHE;
 				break;
 				
-			case "Bici":
+			case MOTO:
 				valorDependiendoDeVehiculo=HORA_MOTO;
+				break;
+
+			case BICI:
+				valorDependiendoDeVehiculo=HORA_BICI;
 				break;
 		}
 		return valorDependiendoDeVehiculo;
@@ -98,5 +112,24 @@ public class Tickets {
 	public void setCosto(Double costoNuevo){
 		this.costo=costoNuevo;
 	}
+
+		@Override
+	public int hashCode() {
+		return Objects.hash(costo, fechaHoraEntrada, fechaHoraSalida, id, nroPlaza);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tickets other = (Tickets) obj;
+		return Objects.equals(id, other.id);
+	}
+
 }
 	
