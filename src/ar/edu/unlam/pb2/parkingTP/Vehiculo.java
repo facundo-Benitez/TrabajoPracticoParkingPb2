@@ -11,7 +11,11 @@ public abstract class Vehiculo {
 		this.tipo=tipo;
 	}
 
-	public String getPatente() {
+	public Vehiculo(String patente2) {
+        //TODO Auto-generated constructor stub
+    }
+
+    public String getPatente() {
 		return patente;
 	}
 	
