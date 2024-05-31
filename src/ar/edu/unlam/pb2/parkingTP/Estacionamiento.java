@@ -9,7 +9,8 @@ import java.util.Set;
 
 public class Estacionamiento implements IEstacionamiento {
     private String nombreEstacionamiento;
-    private Set<Ticket> tickets;
+    private Set<Tickets> tickets;
+    private List<HistorialDelEstacionamiento> historiales;
 
     public Estacionamiento() {
         this.tickets = new HashSet<>();
@@ -18,26 +19,19 @@ public class Estacionamiento implements IEstacionamiento {
     public Estacionamiento(String nombreEstacionamiento) {
         this.nombreEstacionamiento = nombreEstacionamiento;
         this.tickets = new HashSet<>();
+        this.historiales=new ArrayList<>();
     }
 
-    public void agregarTicket(Ticket ticket) {
+    public void agregarTicket(Tickets ticket) {
         tickets.add(ticket);
     }
 
     public double getGananciaTotal() {
         double total = 0.0;
-        for (Ticket ticket : tickets) {
+        for (Tickets ticket : tickets) {
             total += ticket.getCosto();
         }
         return total;
-    }
-
-    public HistorialDelEstacionamiento generarHistorial() {
-    	HistorialDelEstacionamiento historial = new HistorialDelEstacionamiento();
-        for (Ticket ticket : tickets) {
-            historial.agregarTicket(ticket);
-        }
-        return historial;
     }
 
     public String getNombreEstacionamiento() {
@@ -56,7 +50,7 @@ public class Estacionamiento implements IEstacionamiento {
         return vehiculosOrdenados;
     }
 
-	   public Set<Ticket> getTickets() {
+	   public Set<Tickets> getTickets() {
         return tickets;
     }
 
@@ -83,4 +77,12 @@ public class Estacionamiento implements IEstacionamiento {
         }
         return null;
     }
+
+	public HistorialDelEstacionamiento generarHistorial(Integer idHistorial,Tickets ticketClient,VehiculoPlaza plazaDeEstacionamiento,Vehiculo auto,
+				Cliente cliente) {
+			HistorialDelEstacionamiento nuevoHistorial=new HistorialDelEstacionamiento(idHistorial,ticketClient,plazaDeEstacionamiento,auto,cliente);
+			historiales.add(nuevoHistorial);
+			return nuevoHistorial;
+	}
+	
 }

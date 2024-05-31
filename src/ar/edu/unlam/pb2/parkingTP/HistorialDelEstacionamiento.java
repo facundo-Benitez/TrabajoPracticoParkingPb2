@@ -1,24 +1,56 @@
 package ar.edu.unlam.pb2.parkingTP;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 
 public class HistorialDelEstacionamiento {
-    private Set<Ticket> historialTickets;
+	private Integer idHistorial;
+    private Tickets ticketGenerado;
+    private VehiculoPlaza plazaDeEstacionamiento;
+    private Vehiculo vehiculoEstacionado;
+    private Cliente cliente;
+	 
+    public HistorialDelEstacionamiento(Integer idHistorial,Tickets ticketGenerado, VehiculoPlaza plazaDeEstacionamiento,
+			Vehiculo vehiculoEstacionado, Cliente cliente) {
+    	this.idHistorial=idHistorial;
+		this.ticketGenerado = ticketGenerado;
+		this.plazaDeEstacionamiento = plazaDeEstacionamiento;
+		this.vehiculoEstacionado = vehiculoEstacionado;
+		this.cliente = cliente;
+	}
+    
+	public Integer getIdHistorial() {
+		return idHistorial;
+	}
 
-    public HistorialDelEstacionamiento() {
-        this.historialTickets = new HashSet<>();
-    }
+	public Tickets getTicketGenerado() {
+		return ticketGenerado;
+	}
+	public VehiculoPlaza getPlazaDeEstacionamiento() {
+		return plazaDeEstacionamiento;
+	}
+	public Vehiculo getVehiculoEstacionado() {
+		return vehiculoEstacionado;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
 
-    public void agregarTicket(Ticket ticket) {
-        this.historialTickets.add(ticket);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(idHistorial);
+	}
 
-    public Set<Ticket> getHistorialTickets() {
-        return historialTickets;
-    }
-
-    public void setHistorialTickets(Set<Ticket> historialTickets) {
-        this.historialTickets = historialTickets;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HistorialDelEstacionamiento other = (HistorialDelEstacionamiento) obj;
+		return Objects.equals(idHistorial, other.idHistorial);
+	}
+	
+	
 }
