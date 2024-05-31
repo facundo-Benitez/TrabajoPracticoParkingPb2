@@ -2,11 +2,7 @@ package ar.edu.unlam.pb2.parkingTP;
 
 import static org.junit.Assert.*;
 
-<<<<<<< HEAD
-=======
-import java.awt.List;
 import java.time.LocalDateTime;
->>>>>>> NazarenoBranch
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -44,7 +40,6 @@ public class EstacionamientoTest {
 		Boolean seAgrego=estacionamiento.agregarPlazasAlEstacionamiento(plaza);	
 		assertTrue(seAgrego);
 
-<<<<<<< HEAD
 	}
 	
 	@Test 
@@ -101,10 +96,10 @@ public class EstacionamientoTest {
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza3);
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza4);
 		
-		Integer plazasTotalesEspedas=4;
+		Integer plazasTotalesEsperadas=4;
 		Integer plazasTotalesObtenidas=estacionamiento.ObtenerCantidadDePlazas();
 		
-		assertEquals(plazasTotalesEspedas,plazasTotalesObtenidas);
+		assertEquals(plazasTotalesEsperadas,plazasTotalesObtenidas);
 	
 	}
 	
@@ -134,10 +129,10 @@ public class EstacionamientoTest {
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento3);
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento4);
 			
-		Integer plazasTotalesEspedas=4;
+		Integer plazasTotalesEsperadas=4;
 		Integer plazasTotalesObtenidas=estacionamiento.ObtenerCantidadDeLugaresTotalesHabilitadasParaEstacionar();
 		
-		assertEquals(plazasTotalesEspedas,plazasTotalesObtenidas);
+		assertEquals(plazasTotalesEsperadas,plazasTotalesObtenidas);
 		
 	}
 	
@@ -170,9 +165,9 @@ public class EstacionamientoTest {
         Boolean seElimino=estacionamiento.darDeBajaUnaPlazaVehiculoDelSistema(lugarParaEstacionamiento4);
         assertTrue(seElimino);
         
-        Integer lugarEspedos=3;
+        Integer lugarEsperados=3;
 		Integer lugaresObtenidas=estacionamiento.ObtenerCantidadDeLugaresTotalesHabilitadasParaEstacionar();	
-		assertEquals(lugarEspedos,lugaresObtenidas);
+		assertEquals(lugarEsperados,lugaresObtenidas);
 		
 	}
 	
@@ -213,7 +208,7 @@ public class EstacionamientoTest {
 	}
 
 	@Test
-	public void QueSePuedaObtenerTodasLasPlazasDisponiblesPorTipoDeVehiculo(){
+	public void QueSePuedaObtenerTodasLasPlazasDisponiblesPorUnTipoDeVehiculo(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -246,7 +241,7 @@ public class EstacionamientoTest {
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento5);
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento6);
 	    
-		ArrayList<VehiculoPlaza> PlazasDisponiblePorTipoDeVehiculo = estacionamiento.MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorTipoDeVehiculo(TipoDeVehiculo.CAMIONETA);
+		ArrayList<VehiculoPlaza> PlazasDisponiblePorTipoDeVehiculo = estacionamiento.MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorUnTipoDeVehiculo(TipoDeVehiculo.CAMIONETA);
 		    
 		assertEquals((int)3, PlazasDisponiblePorTipoDeVehiculo.size());
 		assertTrue(PlazasDisponiblePorTipoDeVehiculo.contains(lugarParaEstacionamiento4)); 
@@ -259,22 +254,25 @@ public class EstacionamientoTest {
 	}
 	
 	@Test       
-	public void QueSePuedaAsignarUnVehiculoAlEstacionamientoYColocarLaPlazaEnOcupado(){
+	public void QueSePuedaAsignarUnVehiculoAlEstacionamientoYColocarLaPlazaEnOcupado() throws VehiculoNoEncontradoException{
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
 		Boolean estaOcupado=false;
 		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;
-			
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 22, 50, 0);
+		
 		Estacionamiento estacionamiento = new Estacionamiento(nombre);
 		Plaza plaza1=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza1);		
 		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza1);		
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
-		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
 		estacionamiento.agregarVehiculo(auto);
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
 		
-		Boolean seAsignoVehiculo=estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(auto, plaza1);
+		Boolean seAsignoVehiculo=estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza1);
 		assertTrue(seAsignoVehiculo);
 		
 		Boolean lugarOcupadoEsperado=true;
@@ -283,13 +281,14 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueSePuedaMostrarTodasDeLasPlazasDelEstacionamientoOcupadas(){
+	public void QueSePuedaMostrarTodasDeLasPlazasDelEstacionamientoOcupadas() throws VehiculoNoEncontradoException{
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
 		Boolean estaOcupado=false;
 		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;
-			
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 22, 50, 0);
+		
 		Estacionamiento estacionamiento = new Estacionamiento(nombre);
 		Plaza plaza1=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
 		Plaza plaza2=new Plaza(2,seccion,estaOcupado,TipoDeVehiculo.MOTO);
@@ -299,9 +298,9 @@ public class EstacionamientoTest {
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza2);
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza3);
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza4);			
-		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO);
-		Vehiculo moto=new Moto("GR456U1",TipoDeVehiculo.MOTO);
-		Vehiculo bici=new Bici("JKT1234A",TipoDeVehiculo.BICI);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		Vehiculo moto=new Moto("GR456U1",TipoDeVehiculo.MOTO,null);
+		Vehiculo bici=new Bici("JKT1234A",TipoDeVehiculo.BICI,null);
 		estacionamiento.agregarVehiculo(bici);
 		estacionamiento.agregarVehiculo(auto);
 		estacionamiento.agregarVehiculo(moto);	
@@ -312,10 +311,16 @@ public class EstacionamientoTest {
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento2);
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento3);
-		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento4);	       
-	    estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(auto,plaza1);	
-	    estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(moto,plaza2);	
-	    estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(bici,plaza3);
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento4);
+		Tickets ticketCliente1=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente1);
+		Tickets ticketCliente2=estacionamiento.generarTickets(2,LocalDateTime.of(2023, 5, 24, 22, 30, 0),2);
+		estacionamiento.asignarUnTicketAUnVehiculo("GR456U1",ticketCliente2);
+		Tickets ticketCliente3=estacionamiento.generarTickets(3,LocalDateTime.of(2023, 5, 24, 23, 00, 0),3);
+		estacionamiento.asignarUnTicketAUnVehiculo("JKT1234A",ticketCliente3);
+	    estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto,plaza1);	
+	    estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(moto,plaza2);	
+	    estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(bici,plaza3);
 	    
 		ArrayList<VehiculoPlaza> PlazasOcupadas = estacionamiento.MostrarTodasLasPlazasDelEstacionamientoDelSistemaQueEstenOcupadas();
 		    
@@ -340,10 +345,10 @@ public class EstacionamientoTest {
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza1);			
 		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza1);		
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
-		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
 		estacionamiento.agregarVehiculo(auto);
 		
-		Boolean seAsignoVehiculo=estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(auto, plaza1);
+		Boolean seAsignoVehiculo=estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza1);
 		 
 		assertFalse(seAsignoVehiculo);
 		
@@ -362,12 +367,12 @@ public class EstacionamientoTest {
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza1);			
 		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza1);		
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
-		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
 		estacionamiento.agregarVehiculo(auto);
-		Vehiculo auto2=new Auto("KS123A4",TipoDeVehiculo.AUTO);
+		Vehiculo auto2=new Auto("KS123A4",TipoDeVehiculo.AUTO,null);
 		estacionamiento.agregarVehiculo(auto2);	
-		Boolean seAsignoVehiculo1=estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(auto, plaza1);
-		Boolean seAsignoVehiculo2=estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(auto2, plaza1);
+		Boolean seAsignoVehiculo1=estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza1);
+		Boolean seAsignoVehiculo2=estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto2, plaza1);
 		
 		assertTrue(seAsignoVehiculo1);
 		assertFalse(seAsignoVehiculo2);
@@ -375,144 +380,183 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueUnaVezLiberadaUnaPlazaDeEstacionamientoSePuedaHabilitarNuevamente(){
+	public void QueUnaVezLiberadaUnaPlazaDeEstacionamientoSePuedaHabilitarNuevamente() throws VehiculoNoEncontradoException{
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
 		Boolean estaOcupado=false;
 		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 22, 50, 0);
+		LocalDateTime fechaHoraSalida=LocalDateTime.of(2023, 5, 24, 23, 50, 0);
 			
 		Estacionamiento estacionamiento = new Estacionamiento(nombre);
 		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
 		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
 		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
-		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO);
-		estacionamiento.agregarVehiculo(auto);		
-		estacionamiento.asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(auto, plaza);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);	
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza);
+		ticketCliente.registrarSalida(fechaHoraSalida);
 		Boolean seHabilitoPlaza=estacionamiento.habilitarPlazaUnaVesDesocupada(lugarParaEstacionamiento1);
 		assertTrue(seHabilitoPlaza);
 		
 	}
 	
-=======
 	@Test
-	public void testObetenerGananciaTotal() {
-		Estacionamiento estacionamiento = new Estacionamiento();
-
-		// Crear algunos tickets
-		Ticket ticket1 = new Ticket(1, LocalDateTime.now().minusHours(3), LocalDateTime.now(), 1, 6000.0);
-		Ticket ticket2 = new Ticket(2, LocalDateTime.now().minusHours(2), LocalDateTime.now(), 2, 2000.0);
-
-		// Asignar los tickets al estacionamiento
-		estacionamiento.agregarTicket(ticket1);
-		estacionamiento.agregarTicket(ticket2);
-
-		// Calcular el costo esperado
-		double costoEsperado = 6000.0 + 2000.0;
-
-		// Verificar que la ganancia total es la suma de los costos de los tickets
-		assertEquals(costoEsperado, estacionamiento.getGananciaTotal(), 0.0);
+	public void testQueSePuedaObtenerLaGananciaDelEstacionamiento()throws VehiculoNoEncontradoException{
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;	
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 21, 00, 0);
+		LocalDateTime fechaHoraSalida=LocalDateTime.of(2023, 5, 24, 23, 50, 0);
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
+		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza);
+		ticketCliente.registrarSalida(fechaHoraSalida);
+		estacionamiento.habilitarPlazaUnaVesDesocupada(lugarParaEstacionamiento1);
+		
+		Double valorEsperado=5666.6;
+		Double valorObtenido=estacionamiento.obtenerGananciaDelEstacionamiento();
+		assertEquals(valorEsperado,valorObtenido,0.1);
+		
 	}
 
+	@Test 
+	public void QueSePermitaBuscarUnVehiculoPorPatenteYAsignarleUnTicket() throws VehiculoNoEncontradoException{
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 22, 50, 0);
+			
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
+		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);
+		//genero un ticket
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		//busco un vehiculo por patente y le asigno un ticket de ingreso.
+		Boolean seAsigno=estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		//verifico si el ticket se agrego al vehiculo
+		assertTrue(seAsigno);
+		
+	}
+	
 	@Test
-	public void testQueSePuedaAsociarLosVehiculosConLosTickets() {
-		// Crear instancias de vehículos
-		Auto auto = new Auto(1, null);
-		Bici bici = new Bici();
-		Moto moto = new Moto();
+	public void testQueSePuedanObtenerUnVehiculoPorElNumeroDePlaza() throws VehiculoNoEncontradoException, PlazaNoEncontradaException {
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;	
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 21, 00, 0);
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
+		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza);
+		Vehiculo vehiculoEsperado=auto;
+		Vehiculo vehiculoBuscado=estacionamiento.buscarUnVehiculoPorElNroDePlaza(nroDePlaza);
+		assertEquals(vehiculoEsperado,vehiculoBuscado);
+		
+	}
+	
+	@Test
+	public void testQueExistiendoVehiculosEnElEstacionamientoSeBusqueUnAutoPorPatenteExistente() throws VehiculoNoEncontradoException {
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;	
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 21, 00, 0);
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
+		VehiculoPlaza lugarParaEstacionamiento=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza);
+		
+		Plaza lugarEsperado=plaza;
+		Plaza lugarBuscado=estacionamiento.buscarUnVehiculoPorPatenteParaVerSuUbicacion("AJ123A3");
+		assertEquals(lugarEsperado,lugarBuscado);
+		
+	}
+	
+	@Test (expected=PlazaNoEncontradaException.class)
+	public void testQueNoSePuedanObtenerUnVehiculoPorElNumeroDePlazaYLanceUnaException() throws VehiculoNoEncontradoException, PlazaNoEncontradaException {
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;	
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 21, 00, 0);
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
+		VehiculoPlaza lugarParaEstacionamiento1=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento1);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza);
+		
+	    estacionamiento.buscarUnVehiculoPorElNroDePlaza(3);
 
-		// Crear instancias de tickets y asociar vehículos
-		Ticket ticket1 = new Ticket(1, LocalDateTime.now().minusHours(3), LocalDateTime.now(), 3, 2000.0);
-		ticket1.setVehiculo(auto);
-
-		Ticket ticket2 = new Ticket(2, LocalDateTime.now().minusHours(2), LocalDateTime.now(), 1, 1000.0);
-		ticket2.setVehiculo(bici);
-
-		Ticket ticket3 = new Ticket(3, LocalDateTime.now().minusHours(1), LocalDateTime.now(), 2, 1500.0);
-		ticket3.setVehiculo(moto);
-
-		// Crear estacionamiento y agregar tickets
-		Estacionamiento estacionamiento = new Estacionamiento();
-		estacionamiento.agregarTicket(ticket1);
-		estacionamiento.agregarTicket(ticket2);
-		estacionamiento.agregarTicket(ticket3);
-
-		// Verificar que los vehiculos de cada ticket sean los asociados
-		assertEquals(3, estacionamiento.getTickets().size());
-		assertEquals("Auto", ticket1.getVehiculo().getClass().getSimpleName());
-		assertEquals("Bici", ticket2.getVehiculo().getClass().getSimpleName());
-		assertEquals("Moto", ticket3.getVehiculo().getClass().getSimpleName());
-
+		
+	}
+	
+	@Test (expected=VehiculoNoEncontradoException.class)
+	public void testQueNoExistiendoVehiculosEnElEstacionamientoSeBusqueUnAutoPorPatenteExistenteYLanceUnaExceptions() throws VehiculoNoEncontradoException {
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;	
+		LocalDateTime fechaHoraEntrada=LocalDateTime.of(2023, 5, 24, 21, 00, 0);
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);			
+		VehiculoPlaza lugarParaEstacionamiento=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);		
+		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento);
+		Vehiculo auto=new Auto("AJ123A3",TipoDeVehiculo.AUTO,null);
+		estacionamiento.agregarVehiculo(auto);
+		Tickets ticketCliente=estacionamiento.generarTickets(1,fechaHoraEntrada,nroDePlaza);
+		estacionamiento.asignarUnTicketAUnVehiculo("AJ123A3",ticketCliente);
+		estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(auto, plaza);
+		
+		estacionamiento.buscarUnVehiculoPorPatenteParaVerSuUbicacion("AJ123B1");
+		
 	}
 
-	@Test
-	public void testQueSePuedanObtenerLosDatosDeUnVehiculoPorElNumeroDePlaza() {
-		// Crear instancias de vehículos
-		Auto auto = new Auto(1, null);
-		Bici bici = new Bici();
-		Moto moto = new Moto();
-
-		// Crear instancias de tickets y asociar vehículos
-		Ticket ticket1 = new Ticket(1, LocalDateTime.now().minusHours(3), LocalDateTime.now(), 3, 2000.0);
-		ticket1.setVehiculo(auto);
-
-		Ticket ticket2 = new Ticket(2, LocalDateTime.now().minusHours(2), LocalDateTime.now(), 1, 1000.0);
-		ticket2.setVehiculo(bici);
-
-		Ticket ticket3 = new Ticket(3, LocalDateTime.now().minusHours(1), LocalDateTime.now(), 2, 1500.0);
-		ticket3.setVehiculo(moto);
-
-		// Crear una instancia de estacionamiento y agregar tickets
-		Estacionamiento estacionamiento = new Estacionamiento();
-		estacionamiento.agregarTicket(ticket1);
-		estacionamiento.agregarTicket(ticket2);
-		estacionamiento.agregarTicket(ticket3);
-
-		// Obtener los datos de un vehículo por número de plaza
-		String datosVehiculoAuto = estacionamiento.obtenerDatosVehiculoPorNumeroPlaza(3);
-		String datosVehiculoBici = estacionamiento.obtenerDatosVehiculoPorNumeroPlaza(1);
-		String datosVehiculoMoto = estacionamiento.obtenerDatosVehiculoPorNumeroPlaza(2);
-
-		// Verificar los datos obtenidos
-		assertEquals("Auto, Plaza: 3", datosVehiculoAuto);
-		assertEquals("Bici, Plaza: 1", datosVehiculoBici);
-		assertEquals("Moto, Plaza: 2", datosVehiculoMoto);
-	}
-
-	@Test
-	public void testQueExistiendoVehiculosEnElEstacionamientoSeBusqueUnAutoPorPatenteExistente() {
-		// Crear instancias de vehículos
-		Auto auto1 = new Auto(1, "ABC123");
-		Auto auto2 = new Auto(2, "DEF456");
-		Bici bici = new Bici();
-		Moto moto = new Moto();
-
-		// Crear instancias de tickets y asociar vehículos
-		Ticket ticket1 = new Ticket(1, LocalDateTime.now().minusHours(3), LocalDateTime.now(), 3, 2000.0);
-		ticket1.setVehiculo(auto1);
-
-		Ticket ticket2 = new Ticket(2, LocalDateTime.now().minusHours(2), LocalDateTime.now(), 1, 1000.0);
-		ticket2.setVehiculo(bici);
-
-		Ticket ticket3 = new Ticket(3, LocalDateTime.now().minusHours(1), LocalDateTime.now(), 2, 1500.0);
-		ticket3.setVehiculo(moto);
-
-		Ticket ticket4 = new Ticket(4, LocalDateTime.now().minusHours(2), LocalDateTime.now(), 4, 2500.0);
-		ticket4.setVehiculo(auto2);
-
-		// Crear una instancia de estacionamiento y agregar tickets
-		Estacionamiento estacionamiento = new Estacionamiento();
-		estacionamiento.agregarTicket(ticket1);
-		estacionamiento.agregarTicket(ticket2);
-		estacionamiento.agregarTicket(ticket3);
-		estacionamiento.agregarTicket(ticket4);
-
-		// Buscar un auto por una patente existente
-		Auto autoEncontrado = estacionamiento.buscarAutoPorPatente("ABC123");
-
-		// Verificar que se haya encontrado el auto correcto
-		assertEquals(auto1, autoEncontrado);
-	}
->>>>>>> NazarenoBranch
 }

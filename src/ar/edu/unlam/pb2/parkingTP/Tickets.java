@@ -10,12 +10,6 @@ public class Tickets {
 	private LocalDateTime fechaHoraEntrada;
 	private LocalDateTime fechaHoraSalida;
 	private Integer nroPlaza;
-	private Double costo;
-	private static final double HORA_CAMIONETA =2500.0;
-	private static final double HORA_COCHE = 2000.0;
-    private static final double HORA_MOTO = 1000.0;
-	private static final double HORA_BICI = 500.0;
-	
 	
 	// en realidad se hace un ticket a la entrada ya a la salida se cierra el fechaHoraSalida pero esto es modelo de practica, lo mismo con el costo.
 	public Tickets(Integer id, LocalDateTime fechaHoraEntrada, Integer nroPlaza) {
@@ -24,41 +18,16 @@ public class Tickets {
 		this.nroPlaza = nroPlaza;
 	}
 	
+	public Tickets(Integer id, LocalDateTime fechaHoraEntrada, LocalDateTime fechaHoraSalida, Integer nroPlaza) {
+		this.id = id;
+		this.fechaHoraEntrada = fechaHoraEntrada;
+		this.fechaHoraSalida=fechaHoraSalida;
+		this.nroPlaza = nroPlaza;
+	}
+	
 	public Boolean registrarSalida(LocalDateTime retiro){
 		setFechaHoraSalida(retiro);
 		return true;
-	}
-
-
-	public double calcularCosto(Vehiculo vehiculo){
-		Double valorVehiculo=getValorVehiculo(vehiculo);
-		Double tiempoEstadiaEnHoras= ((double)calculoTiempoEstadiaEnMinutos()/60); //ponemos el double adelante para que cuente los minutos tambien, sino se come los numeros detras de la coma
-		Double valorTotal=valorVehiculo*tiempoEstadiaEnHoras;
-		setCosto(valorTotal);
-		return valorTotal;
-	}
-	
-	public Double getValorVehiculo(Vehiculo vehiculo){
-		TipoDeVehiculo tipoVehiculo =vehiculo.getTipo();
-		Double valorDependiendoDeVehiculo=0.0;
-		switch(tipoVehiculo) {
-			case CAMIONETA:
-				valorDependiendoDeVehiculo=HORA_CAMIONETA;
-				break;
-
-			case AUTO:
-				valorDependiendoDeVehiculo=HORA_COCHE;
-				break;
-				
-			case MOTO:
-				valorDependiendoDeVehiculo=HORA_MOTO;
-				break;
-
-			case BICI:
-				valorDependiendoDeVehiculo=HORA_BICI;
-				break;
-		}
-		return valorDependiendoDeVehiculo;
 	}
 	
 	public Integer calculoTiempoEstadiaEnMinutos(){
@@ -106,15 +75,8 @@ public class Tickets {
 		this.fechaHoraSalida = fechaHoraSalida;
 	}
 
-	public Double getCosto(){
-		return costo;
-	}
 
-	public void setCosto(Double costoNuevo){
-		this.costo=costoNuevo;
-	}
-
-		@Override
+	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
@@ -139,7 +101,7 @@ public class Tickets {
 	@Override
 	public String toString() {
 		return "Tickets [id=" + id + ", fechaHoraEntrada=" + fechaHoraEntrada + ", fechaHoraSalida=" + fechaHoraSalida
-				+ ", nroPlaza=" + nroPlaza + ", costo=" + costo + "]";
+				+ ", nroPlaza=" + nroPlaza + "]";
 	}
 
 }

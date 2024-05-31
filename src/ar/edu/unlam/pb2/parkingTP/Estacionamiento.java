@@ -1,16 +1,15 @@
 package ar.edu.unlam.pb2.parkingTP;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Estacionamiento implements IEstacionamiento{
 	private String nombreEstacionamiento;
 	private ArrayList <Vehiculo> vehiculos;
 	private ArrayList <Plaza>plazas;
 	private ArrayList <VehiculoPlaza>AsignacionVehiculosplazas;
-    private Set<Tickets> tickets;
+    private List<Tickets> tickets;
     private List<HistorialDelEstacionamiento> historiales;
 
 	public Estacionamiento(String nombreEstacionamiento) {
@@ -18,73 +17,14 @@ public class Estacionamiento implements IEstacionamiento{
 		this.vehiculos = new ArrayList<>();		
 		this.plazas= new ArrayList<>();
 		this.AsignacionVehiculosplazas= new ArrayList<>();
-        this.tickets = new HashSet<>();
+		this.tickets=new ArrayList<>();
         this.historiales=new ArrayList<>();
 	}
 
-    public void agregarTicket(Tickets ticket) {
-        tickets.add(ticket);
-    }
-
-    public double getGananciaTotal() {
-        double total = 0.0;
-        for (Tickets ticket : tickets) {
-            total += ticket.getCosto();
-        }
-        return total;
-    }
-
-    public String getNombreEstacionamiento() {
-        return nombreEstacionamiento;
-    }
-    
-    public List<Vehiculo> obtenerVehiculosEstacionadosOrdenados() {
-        List<Ticket> listaTickets = new ArrayList<>(tickets);
-        listaTickets.sort(Comparator.comparingInt(Ticket::getNroPlaza));
-        
-        List<Vehiculo> vehiculosOrdenados = new ArrayList<>();
-        for (Ticket ticket : listaTickets) {
-            vehiculosOrdenados.add(ticket.getVehiculo());
-        }
-        
-        return vehiculosOrdenados;
-    }
-
-	   public Set<Tickets> getTickets() {
-        return tickets;
-    }
-
-	   public String obtenerDatosVehiculoPorNumeroPlaza(int numeroPlaza) {
-		    for (Ticket ticket : tickets) {
-		        if (ticket.getNroPlaza() == numeroPlaza) {
-		            Vehiculo vehiculo = ticket.getVehiculo();
-		            String tipoVehiculo = vehiculo.getClass().getSimpleName();
-		            return tipoVehiculo + ", Plaza: " + numeroPlaza;
-		        }
-		    }
-		    return "Vehículo no encontrado en la plaza: " + numeroPlaza;
-		}
-
-	  public Auto buscarAutoPorPatente(String patente) {
-        for (Ticket ticket : tickets) {
-            Vehiculo vehiculo = ticket.getVehiculo();
-            if (vehiculo instanceof Auto) {
-                Auto auto = (Auto) vehiculo;
-                if (auto.getPatente().equals(patente)) {
-                    return auto;
-                }
-            }
-        }
-        return null;
-    }
-
-	public HistorialDelEstacionamiento generarHistorial(Integer idHistorial,Tickets ticketClient,VehiculoPlaza plazaDeEstacionamiento,Vehiculo auto,
-				Cliente cliente) {
-			HistorialDelEstacionamiento nuevoHistorial=new HistorialDelEstacionamiento(idHistorial,ticketClient,plazaDeEstacionamiento,auto,cliente);
-			historiales.add(nuevoHistorial);
-			return nuevoHistorial;
+	public String getNombreEstacionamiento() {
+	        return nombreEstacionamiento;
 	}
-	
+	   
 	public Boolean agregarVehiculo(Vehiculo vehiculo) {	
 		return vehiculos.add(vehiculo) ;
 	}
@@ -113,6 +53,10 @@ public class Estacionamiento implements IEstacionamiento{
 		return seElimino;
 	}
 	
+    public void agregarTicket(Tickets ticket) {
+        tickets.add(ticket);
+    }
+    
 	public Integer ObtenerCantidadDePlazas() {
 		return this.plazas.size();
 	}
@@ -144,7 +88,7 @@ public class Estacionamiento implements IEstacionamiento{
     }
 	
 	@Override
-	public ArrayList<VehiculoPlaza> MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorTipoDeVehiculo(TipoDeVehiculo tipo) {
+	public ArrayList<VehiculoPlaza> MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorUnTipoDeVehiculo(TipoDeVehiculo tipo) {
 		ArrayList<VehiculoPlaza> plazaDisponiblesPorTipo = new ArrayList<>();    
 		for (VehiculoPlaza vehiculoPlazaEstacionamiento : AsignacionVehiculosplazas) {			
             if(vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getEstaOcupado()==false && vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getTipo().equals(tipo) && vehiculoPlazaEstacionamiento.getVehiculoEnPlaza()==null) {
@@ -154,7 +98,8 @@ public class Estacionamiento implements IEstacionamiento{
         return plazaDisponiblesPorTipo;
     }
 	
-	public Boolean asignarUnVehiculoAUnaPlazaDelSistemayUnaVezAsignadoPonerOcupado(Vehiculo vehiculo, Plaza plazaSeleccionada) {
+	@Override
+	public Boolean asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(Vehiculo vehiculo, Plaza plazaSeleccionada) {
 		Boolean seAsigno=false;
 		for (VehiculoPlaza vehiculoPlazaEstacionamiento : AsignacionVehiculosplazas) {
 			if(vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().equals(plazaSeleccionada)&&vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getEstaOcupado()==false) {
@@ -179,15 +124,80 @@ public class Estacionamiento implements IEstacionamiento{
         return plazaOcupadas;
     }
 
+	@Override
 	public Boolean habilitarPlazaUnaVesDesocupada(VehiculoPlaza plazaAHabilitar) {
 		Boolean seLibero=false;
-		for (VehiculoPlaza vehiculoPlazaEActual : this.AsignacionVehiculosplazas) {
-			if(vehiculoPlazaEActual.equals(plazaAHabilitar)) {
-				vehiculoPlazaEActual.getPlazaDeVehiculo().setEstaOcupado(false);
+		for (VehiculoPlaza vehiculoPlazaActual : this.AsignacionVehiculosplazas) {
+			if(vehiculoPlazaActual.equals(plazaAHabilitar)&& vehiculoPlazaActual.getVehiculoEnPlaza().getTickets().getFechaHoraSalida()!=null) {
+				vehiculoPlazaActual.getPlazaDeVehiculo().setEstaOcupado(false);
 				return seLibero=true;
 			}
 		}
 		return seLibero;
+	}
+	
+	public HistorialDelEstacionamiento generarHistorial(Integer idHistorial,Tickets ticketClient,VehiculoPlaza plazaDeEstacionamiento,Vehiculo auto,
+			Cliente cliente) {
+		HistorialDelEstacionamiento nuevoHistorial=new HistorialDelEstacionamiento(idHistorial,ticketClient,plazaDeEstacionamiento,auto,cliente);
+		historiales.add(nuevoHistorial);
+		return nuevoHistorial;
+    }
+	
+    public Double obtenerGananciaDelEstacionamiento() {
+		Double montoFinal = 0.0;
+		for(Vehiculo vehiculoActual : vehiculos) {
+			montoFinal +=vehiculoActual.calcularCosto();
+		}
+		return montoFinal;
+    }
+    
+	public Tickets generarTickets(Integer id, LocalDateTime fechaHoraEntrada, Integer nroDePlaza) {
+		Tickets nuevoTicket=new Tickets(id, fechaHoraEntrada, nroDePlaza);
+		this.tickets.add(nuevoTicket);
+		return nuevoTicket;
+	}
+	
+	public Vehiculo buscarVehiculoPorPatente(String patente) throws VehiculoNoEncontradoException {
+		Vehiculo vehiculoEncontrado=null;
+		for (Vehiculo vehiculo : vehiculos) {
+			if(vehiculo.getPatente().equalsIgnoreCase(patente)) {
+				vehiculoEncontrado=vehiculo;
+				return vehiculoEncontrado;
+			}
+		}
+		throw new VehiculoNoEncontradoException("El vehiculo no fue encontrado intente nuevamente con la patente");
+	}
+	
+	public Boolean asignarUnTicketAUnVehiculo(String patente, Tickets ticketCliente) throws VehiculoNoEncontradoException {
+		Boolean seAsigno=false;
+		Vehiculo vehiculoEncontrado=this.buscarVehiculoPorPatente(patente);
+		if(vehiculoEncontrado.getTickets()==null) {
+			vehiculoEncontrado.setTickets(ticketCliente);
+			return seAsigno=true;
+		}
+		return seAsigno;
+	}
+	
+	public Vehiculo buscarUnVehiculoPorElNroDePlaza(Integer nroDePlaza) throws PlazaNoEncontradaException {
+		Vehiculo encontrado=null;
+		for (VehiculoPlaza vehiculoPlaza : AsignacionVehiculosplazas) {
+			 if(vehiculoPlaza.getPlazaDeVehiculo().getNroDePlaza().equals(nroDePlaza)) {
+				 encontrado=vehiculoPlaza.getVehiculoEnPlaza();
+				 return  encontrado;
+			}
+		}
+		throw new PlazaNoEncontradaException("La plaza no fue encontrada intente nuevamente");
+	} 
+	
+	public Plaza buscarUnVehiculoPorPatenteParaVerSuUbicacion(String patente) throws VehiculoNoEncontradoException {
+		Plaza encontrada=null;
+		for (VehiculoPlaza vehiculoPlaza : AsignacionVehiculosplazas) {
+			 if(vehiculoPlaza.getVehiculoEnPlaza().getPatente().equals(patente)) {
+				 encontrada=vehiculoPlaza.getPlazaDeVehiculo();
+				 return  encontrada;
+			}
+		}
+		throw new VehiculoNoEncontradoException("El vehiculo no fue encontrado intente nuevamente con la patente");
 	}
 	
 }
