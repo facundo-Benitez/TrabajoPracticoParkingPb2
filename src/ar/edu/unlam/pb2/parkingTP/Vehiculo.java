@@ -8,12 +8,6 @@ public abstract class Vehiculo {
 	private Cliente duenio;
 	private Tickets tickets;
 	
-	public Vehiculo(String patente,TipoDeVehiculo tipo,Cliente duenio) {
-		this.patente = patente;
-		this.tipo=tipo;
-		this.duenio=duenio;
-	}
-	
 	public Vehiculo(String patente,TipoDeVehiculo tipo,Tickets tickets) {
 		this.patente = patente;
 		this.tipo=tipo;
