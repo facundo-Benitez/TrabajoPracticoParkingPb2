@@ -11,10 +11,11 @@ public class Tickets {
 	private LocalDateTime fechaHoraSalida;
 	private Integer nroPlaza;
 	private Double costo;
+	private static final double HORA_CAMIONETA =2500.0;
 	private static final double HORA_COCHE = 2000.0;
     private static final double HORA_MOTO = 1000.0;
-	private static final double HORA_BICI = 500.0
-	private static final double HORA_CAMIONETA =2500.0
+	private static final double HORA_BICI = 500.0;
+	
 	
 	// en realidad se hace un ticket a la entrada ya a la salida se cierra el fechaHoraSalida pero esto es modelo de practica, lo mismo con el costo.
 	public Tickets(Integer id, LocalDateTime fechaHoraEntrada, Integer nroPlaza) {
@@ -115,7 +116,7 @@ public class Tickets {
 
 		@Override
 	public int hashCode() {
-		return Objects.hash(costo, fechaHoraEntrada, fechaHoraSalida, id, nroPlaza);
+		return Objects.hash(id);
 	}
 
 
@@ -129,6 +130,16 @@ public class Tickets {
 			return false;
 		Tickets other = (Tickets) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public void imprimirTicket() {
+		System.out.print(toString());
+	}
+
+	@Override
+	public String toString() {
+		return "Tickets [id=" + id + ", fechaHoraEntrada=" + fechaHoraEntrada + ", fechaHoraSalida=" + fechaHoraSalida
+				+ ", nroPlaza=" + nroPlaza + ", costo=" + costo + "]";
 	}
 
 }
