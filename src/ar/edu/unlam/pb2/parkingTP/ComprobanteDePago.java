@@ -1,5 +1,15 @@
 package ar.edu.unlam.pb2.parkingTP;
 
-public abstract class ComprobanteDePago {
+abstract public class ComprobanteDePago {
+    private double montoPago;
 
+    public ComprobanteDePago(double montoPago) {
+        this.montoPago = montoPago;
+    }
+
+    abstract boolean realizarCobro(ReservaPlaza reservaPlaza);
+
+    public double getMontoPago() {
+        return montoPago;
+    }
 }
