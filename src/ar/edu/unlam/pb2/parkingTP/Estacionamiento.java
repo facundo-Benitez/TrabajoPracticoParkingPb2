@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Estacionamiento implements IEstacionamiento{
 	private String nombreEstacionamiento;
+	private ArrayList <Cliente> clientes;
 	private ArrayList <Vehiculo> vehiculos;
 	private ArrayList <Plaza>plazas;
 	private ArrayList <VehiculoPlaza>AsignacionVehiculosplazas;
@@ -22,6 +23,7 @@ public class Estacionamiento implements IEstacionamiento{
 		this.tickets=new ArrayList<>();
         this.historiales=new ArrayList<>();
 		this.reservasPlaza = new ArrayList<>();
+		this.clientes= new ArrayList<>();
 
 	}
 
@@ -151,6 +153,7 @@ public class Estacionamiento implements IEstacionamiento{
 
 	public Cliente registrarCliente(String nombre, String telefono) {
 		Cliente cliente = new Cliente(nombre, telefono);
+		this.clientes.add(cliente);
 		return cliente;
 	}
 
