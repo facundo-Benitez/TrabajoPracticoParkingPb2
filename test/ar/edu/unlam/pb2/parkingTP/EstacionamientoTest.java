@@ -428,8 +428,12 @@ public class EstacionamientoTest {
 		ticketCliente.registrarSalida(fechaHoraSalida);
 		estacionamiento.habilitarPlazaUnaVesDesocupada(lugarParaEstacionamiento1);
 		
+		estacionamiento.generarHistorial(1, ticketCliente, lugarParaEstacionamiento1, auto,new Cliente("juan","+54912312456"));
+		LocalDateTime rangoEntrada=LocalDateTime.of(2023, 5, 24, 0, 0, 0);
+		LocalDateTime rangoSalida=LocalDateTime.of(2023, 5, 24, 23, 59, 0);
+		
 		Double valorEsperado=5666.6;
-		Double valorObtenido=estacionamiento.obtenerGananciaDelEstacionamiento();
+		Double valorObtenido=estacionamiento.obtenerGananciaDelEstacionamiento(rangoEntrada,rangoSalida);
 		assertEquals(valorEsperado,valorObtenido,0.1);
 		
 	}

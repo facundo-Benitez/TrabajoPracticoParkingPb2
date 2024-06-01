@@ -217,10 +217,16 @@ public class Estacionamiento implements IEstacionamiento{
 		return nuevoHistorial;
     }
 	
-    public Double obtenerGananciaDelEstacionamiento() {
+	//aca calculo la ganancia por un rango entre fecha y hora
+    public Double obtenerGananciaDelEstacionamiento(LocalDateTime fechaHoraInicio,LocalDateTime fechaHoraFin) {
 		Double montoFinal = 0.0;
-		for(Vehiculo vehiculoActual : vehiculos) {
-			montoFinal +=vehiculoActual.calcularCosto();
+		
+		for(HistorialDelEstacionamiento HistorialActual : historiales) {
+			LocalDateTime Entrada=HistorialActual.getVehiculoEstacionado().getTickets().getFechaHoraEntrada();
+			LocalDateTime Salida=HistorialActual.getVehiculoEstacionado().getTickets().getFechaHoraSalida();
+			if ((Entrada.isAfter(fechaHoraInicio) || Entrada.isEqual(fechaHoraInicio))&&(Salida.isBefore(fechaHoraFin) || Salida.isEqual(fechaHoraFin))) {
+				montoFinal +=HistorialActual.getVehiculoEstacionado().calcularCosto();
+			}	
 		}
 		return montoFinal;
     }
