@@ -11,6 +11,11 @@ public class Tarjeta extends ComprobanteDePago {
     }
 
     @Override
+    boolean realizarCobro() {
+        return verificarTarjeta() && super.getMontoPago() > 0;
+    }
+
+    @Override
     public boolean realizarCobro(ReservaPlaza reservaPlaza) {
         if (verificarTarjeta()) {
             reservaPlaza.acreditarDeuda(super.getMontoPago());

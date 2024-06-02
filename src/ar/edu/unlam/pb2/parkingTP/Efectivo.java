@@ -6,6 +6,11 @@ public class Efectivo extends ComprobanteDePago {
     }
 
     @Override
+    boolean realizarCobro() {
+        return getMontoPago() > 0;
+    }
+
+    @Override
     public boolean realizarCobro(ReservaPlaza reservaPlaza) {
         return reservaPlaza.acreditarDeuda(super.getMontoPago());
     }
