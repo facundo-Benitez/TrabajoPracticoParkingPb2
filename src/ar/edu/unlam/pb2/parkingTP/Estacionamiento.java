@@ -3,25 +3,27 @@ package ar.edu.unlam.pb2.parkingTP;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Estacionamiento implements IEstacionamiento{
 	private String nombreEstacionamiento;
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Vehiculo> vehiculos;
-	private ArrayList <Plaza>plazas;
-	private ArrayList <VehiculoPlaza>AsignacionVehiculosplazas;
+	private HashSet <Plaza>plazas;
+	private HashSet <VehiculoPlaza>AsignacionVehiculosplazas;
     private List<Tickets> tickets;
-    private List<HistorialDelEstacionamiento> historiales;
+    private Set<HistorialDelEstacionamiento> historiales;
 	private List<ReservaPlaza> reservasPlaza;
 
 	public Estacionamiento(String nombreEstacionamiento) {
 		this.nombreEstacionamiento = nombreEstacionamiento;
 		this.vehiculos = new ArrayList<>();		
-		this.plazas= new ArrayList<>();
-		this.AsignacionVehiculosplazas= new ArrayList<>();
+		this.plazas= new HashSet<>();
+		this.AsignacionVehiculosplazas= new HashSet<>();
 		this.tickets=new ArrayList<>();
-        this.historiales=new ArrayList<>();
+        this.historiales=new HashSet<>();
 		this.reservasPlaza = new ArrayList<>();
 		this.clientes= new ArrayList<>();
 
@@ -83,8 +85,8 @@ public class Estacionamiento implements IEstacionamiento{
 	}
 	
 	@Override
-	public ArrayList<VehiculoPlaza> MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistema() {
-		ArrayList<VehiculoPlaza> plazaDisponibles = new ArrayList<>();    
+	public HashSet<VehiculoPlaza> MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistema() {
+		HashSet<VehiculoPlaza> plazaDisponibles = new HashSet<>();    
 		for (VehiculoPlaza vehiculoPlazaEstacionamiento : AsignacionVehiculosplazas) {			
             if(vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getEstaOcupado()==false) {
             	plazaDisponibles.add(vehiculoPlazaEstacionamiento);
@@ -94,8 +96,8 @@ public class Estacionamiento implements IEstacionamiento{
     }
 	
 	@Override
-	public ArrayList<VehiculoPlaza> MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorUnTipoDeVehiculo(TipoDeVehiculo tipo) {
-		ArrayList<VehiculoPlaza> plazaDisponiblesPorTipo = new ArrayList<>();    
+	public HashSet<VehiculoPlaza> MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorUnTipoDeVehiculo(TipoDeVehiculo tipo) {
+		HashSet<VehiculoPlaza> plazaDisponiblesPorTipo = new HashSet<>();    
 		for (VehiculoPlaza vehiculoPlazaEstacionamiento : AsignacionVehiculosplazas) {			
             if(vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getEstaOcupado()==false && vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getTipo().equals(tipo) && vehiculoPlazaEstacionamiento.getVehiculoEnPlaza()==null) {
             	plazaDisponiblesPorTipo.add(vehiculoPlazaEstacionamiento);
@@ -120,8 +122,8 @@ public class Estacionamiento implements IEstacionamiento{
 	}
 	
 	@Override
-	public ArrayList<VehiculoPlaza> MostrarTodasLasPlazasDelEstacionamientoDelSistemaQueEstenOcupadas() {
-		ArrayList<VehiculoPlaza> plazaOcupadas = new ArrayList<>();    
+	public HashSet<VehiculoPlaza> MostrarTodasLasPlazasDelEstacionamientoDelSistemaQueEstenOcupadas() {
+		HashSet<VehiculoPlaza> plazaOcupadas = new HashSet<>();    
 		for (VehiculoPlaza vehiculoPlazaEstacionamiento : AsignacionVehiculosplazas) {			
             if(vehiculoPlazaEstacionamiento.getPlazaDeVehiculo().getEstaOcupado()==true && vehiculoPlazaEstacionamiento.getVehiculoEnPlaza()!=null) {
             	plazaOcupadas.add(vehiculoPlazaEstacionamiento);
@@ -278,6 +280,10 @@ public class Estacionamiento implements IEstacionamiento{
 			}
 		}
 		throw new VehiculoNoEncontradoException("El vehiculo no fue encontrado intente nuevamente con la patente");
+	}
+
+	public Integer cantidadDeHistorialesAgregados() {
+		return this.historiales.size();
 	}
 	
 }

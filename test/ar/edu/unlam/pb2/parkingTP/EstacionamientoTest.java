@@ -3,7 +3,7 @@ package ar.edu.unlam.pb2.parkingTP;
 import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.junit.Test;
 
@@ -43,6 +43,26 @@ public class EstacionamientoTest {
 	}
 	
 	@Test 
+	public void QueNoSePuedaAgregarUnaPlazaRepetidaAlEstacionamiento() {	
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);	
+		Plaza plazaRepetida=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		
+		Boolean seAgrego1=estacionamiento.agregarPlazasAlEstacionamiento(plaza);	
+		Boolean seAgrego2=estacionamiento.agregarPlazasAlEstacionamiento(plazaRepetida);
+		assertTrue(seAgrego1);
+		assertFalse(seAgrego2);
+
+	}
+	
+	@Test 
 	public void QueSePuedaEliminarUnaPlazasDelEstacionamiento() {	
 		String nombre = "E";
 		Integer nroDePlaza=1;
@@ -75,6 +95,27 @@ public class EstacionamientoTest {
 		
 		assertNotNull(lugarParaEstacionamiento);
 		assertTrue(SeAgrego);
+	
+	}
+	
+	@Test 
+	public void QueNoSePuedaAgregarAlSistemaUnLugarRepetidoParaEstacionarUnVehiculo() {	
+		String nombre = "E";
+		Integer nroDePlaza=1;
+		String seccion="zona A";
+		Boolean estaOcupado=false;
+		TipoDeVehiculo tipo=TipoDeVehiculo.AUTO;
+		
+		Estacionamiento estacionamiento = new Estacionamiento(nombre);
+		Plaza plaza=new Plaza(nroDePlaza,seccion,estaOcupado,tipo);
+		estacionamiento.agregarPlazasAlEstacionamiento(plaza);	
+		VehiculoPlaza lugarParaEstacionamiento=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);
+		VehiculoPlaza lugarRepetido=estacionamiento.crearUnLugarDeEstacionamientoAlSistemaParaEstacionarVehiculo(plaza);
+		
+		Boolean SeAgrego1=estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento);
+		Boolean SeAgrego2=estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarRepetido);
+		assertTrue(SeAgrego1);
+		assertFalse(SeAgrego2);
 	
 	}
 	
@@ -197,7 +238,7 @@ public class EstacionamientoTest {
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento3);
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento4);
 				
-		ArrayList<VehiculoPlaza> PlazasDisponibles = estacionamiento.MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistema();
+		HashSet<VehiculoPlaza> PlazasDisponibles = estacionamiento.MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistema();
 		    
 		assertEquals((int)4, PlazasDisponibles.size());
 		assertTrue(PlazasDisponibles.contains(lugarParaEstacionamiento1)); 
@@ -241,7 +282,7 @@ public class EstacionamientoTest {
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento5);
 		estacionamiento.agregarUnLugarDeEstacionamientoAlSistema(lugarParaEstacionamiento6);
 	    
-		ArrayList<VehiculoPlaza> PlazasDisponiblePorTipoDeVehiculo = estacionamiento.MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorUnTipoDeVehiculo(TipoDeVehiculo.CAMIONETA);
+		HashSet<VehiculoPlaza> PlazasDisponiblePorTipoDeVehiculo = estacionamiento.MostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamientoDelSistemaPorUnTipoDeVehiculo(TipoDeVehiculo.CAMIONETA);
 		    
 		assertEquals((int)3, PlazasDisponiblePorTipoDeVehiculo.size());
 		assertTrue(PlazasDisponiblePorTipoDeVehiculo.contains(lugarParaEstacionamiento4)); 
@@ -322,7 +363,7 @@ public class EstacionamientoTest {
 	    estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(moto,plaza2);	
 	    estacionamiento.asignarUnVehiculoAUnaPlazayUnaVezAsignadoPonerElLugarEnOcupado(bici,plaza3);
 	    
-		ArrayList<VehiculoPlaza> PlazasOcupadas = estacionamiento.MostrarTodasLasPlazasDelEstacionamientoDelSistemaQueEstenOcupadas();
+	    HashSet<VehiculoPlaza> PlazasOcupadas = estacionamiento.MostrarTodasLasPlazasDelEstacionamientoDelSistemaQueEstenOcupadas();
 		    
 		assertEquals((int)3, PlazasOcupadas.size());
 		assertTrue(PlazasOcupadas.contains(lugarParaEstacionamiento1)); 
