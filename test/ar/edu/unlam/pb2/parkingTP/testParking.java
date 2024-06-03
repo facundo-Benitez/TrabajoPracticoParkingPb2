@@ -92,10 +92,10 @@ public class testParking {
 		Estacionamiento estacionamiento = new Estacionamiento(nombre);
 		estacionamiento.agregarVehiculo(vehiculo);
 		assertEquals(nombreCliente,estacionamiento.queSePuedeVincularElClienteConLaPatente(patente).getNombre());
-	/*		
 	}
+	/*		
 	@Test
-	public void QueSePuedaEncontrarLaPlazaDondeEst·EstacionadoUnAutoPorSuPatenteTest()  {
+	public void QueSePuedaEncontrarLaPlazaDondeEstaEstacionadoUnAutoPorSuPatenteTest()  {
 		
 		String marca = "BMW";
 		String color = "rojo";
@@ -113,7 +113,7 @@ public class testParking {
 		//assertEquals(numero, estacionamiento.obtenerEstacionamientoDeAutoPorPatente(patente));	
 	}
 	@Test
-	public void QueSePuedaEncontrarLaPlazaDondeEst·EstacionadoUnaMotoPorSuPatenteTest() {
+	public void QueSePuedaEncontrarLaPlazaDondeEstaEstacionadoUnaMotoPorSuPatenteTest() {
 		String marca = "BMW";
 		String color = "rojo";
 		String patente = "A2002E";
@@ -131,7 +131,7 @@ public class testParking {
 	}
 /*	
 	@Test
-	public void QueSePuedaEncontrarLaPlazaDondeEst·EstacionadoUnaBicicletaPorSuMarcaYColorTest() {
+	public void QueSePuedaEncontrarLaPlazaDondeEstaEstacionadoUnaBicicletaPorSuMarcaYColorTest() {
 		
 		String marca = "Vairo";
 		String color = "rojo";
