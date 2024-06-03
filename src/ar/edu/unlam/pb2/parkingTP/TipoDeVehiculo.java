@@ -1,5 +1,5 @@
 package ar.edu.unlam.pb2.parkingTP;
 
-public enum TipoPlaza {
+public enum TipoDeVehiculo {
 	AUTO, MOTO, BICI,CAMIONETA
 }

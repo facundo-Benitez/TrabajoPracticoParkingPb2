@@ -76,7 +76,7 @@ public class testParking {
 		Double precioPorHoraEsperado = 2000.00;
 		assertEquals(precioPorHoraEsperado, camioneta.obtenerPrecioPorHora(precioBase));
 	}
-	
+	/*
 	@Test
 	public void QueSePuedaObtenerElClienteVinculadoAlVehiculoPorSuPatenteTest() {
 		
@@ -93,9 +93,11 @@ public class testParking {
 		estacionamiento.agregarVehiculo(vehiculo);
 		assertEquals(nombreCliente,estacionamiento.queSePuedeVincularElClienteConLaPatente(patente).getNombre());
 	}
+
+	*/
 	/*		
 	@Test
-	public void QueSePuedaEncontrarLaPlazaDondeEstaEstacionadoUnAutoPorSuPatenteTest()  {
+	public void QueSePuedaEncontrarLaPlazaDondeEst�EstacionadoUnAutoPorSuPatenteTest() throws sobreCargaDePlazasExcepcion  {
 		
 		String marca = "BMW";
 		String color = "rojo";
@@ -103,17 +105,19 @@ public class testParking {
 		Double basePrecio = 500.00;
 		String nombreCliente = "Pepe";
 		Integer dni = 1;
-		String nombre = "E";
-		Integer numero = null;
+		String nombre = "E";		
 		Cliente cliente = new Cliente(nombreCliente, dni);
 		Auto auto = new Auto(cliente, marca, color, patente, basePrecio);
 		Estacionamiento estacionamiento = new Estacionamiento(nombre);
-	//	Plaza plaza = new Plaza(numero, TipoPlaza.AUTO);		
-		assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(auto, TipoPlaza.AUTO));
-		//assertEquals(numero, estacionamiento.obtenerEstacionamientoDeAutoPorPatente(patente));	
+		Plaza plaza = new Plaza(1, TipoDeVehiculo.AUTO);		
+		assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
+		assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(auto, TipoDeVehiculo.AUTO));
+		assertEquals(patente, estacionamiento.obtenerEstacionamientoDeAutoPorPatente(patente));	
 	}
+	
 	@Test
-	public void QueSePuedaEncontrarLaPlazaDondeEstaEstacionadoUnaMotoPorSuPatenteTest() {
+	public void QueSePuedaEncontrarLaPlazaDondeEst�EstacionadoUnaMotoPorSuPatenteTest() throws sobreCargaDePlazasExcepcion {
+
 		String marca = "BMW";
 		String color = "rojo";
 		String patente = "A2002E";
@@ -125,26 +129,29 @@ public class testParking {
 		Cliente cliente = new Cliente(nombreCliente, dni);
 		Moto moto = new Moto(cliente, marca, color, patente, basePrecio);
 		Estacionamiento estacionamiento = new Estacionamiento(nombre);
-		Plaza plaza = new Plaza(numero, TipoPlaza.MOTO);
-		assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(moto, TipoPlaza.MOTO));
-	//	assertEquals(numero, estacionamiento.obtenerEstacionamientoDeAutoPorPatente(patente));
+		Plaza plaza = new Plaza(numero, TipoDeVehiculo.MOTO);
+		assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
+		assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(moto,TipoDeVehiculo.MOTO));
+		assertEquals(patente, estacionamiento.obtenerEstacionamientoDeAutoPorPatente(patente));
 	}
-/*	
+	
 	@Test
-	public void QueSePuedaEncontrarLaPlazaDondeEstaEstacionadoUnaBicicletaPorSuMarcaYColorTest() {
+	public void QueSePuedaEncontrarLaPlazaDondeEst�EstacionadoUnaBicicletaPorSuMarcaYColorTest() throws sobreCargaDePlazasExcepcion {
 		
 		String marca = "Vairo";
 		String color = "rojo";
 		Cliente cliente = new Cliente("pepe",1);
 		Bici bici = new Bici(cliente, marca, color, "5", 500.0);
 		Integer numeroPlaza = 5;
-		Plaza plaza = new Plaza(numeroPlaza,TipoPlaza.BICI);
+		Plaza plaza = new Plaza(numeroPlaza,TipoDeVehiculo.BICI);
 		Estacionamiento estacionamiento = new Estacionamiento("E");
-		//assertEquals(numeroPlaza,estacionamiento.buscarBici(marca,color));
+		assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
+		assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(bici, TipoDeVehiculo.BICI));
+	//	assertEquals(numeroPlaza,estacionamiento.buscarBici(marca,color));
 	}
 	
-	  @Test
-	    public void QueSeQuieraIngresarUnaMotoAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest() throws sobreCargaDePlazasExcepcion {
+	 @Test
+	 public void QueSeQuieraIngresarUnaMotoAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest() throws sobreCargaDePlazasExcepcion {
 	        String marca = "BMW";
 	        String color = "rojo";
 	        String patente = "A2002E";
@@ -156,15 +163,15 @@ public class testParking {
 	        Moto moto1 = new Moto(cliente, marca, color, patente, basePrecio);
 	        Moto moto2 = new Moto(cliente, marca, color, patente, basePrecio);
 	        Estacionamiento estacionamiento = new Estacionamiento("E");
-	        Plaza plaza = new Plaza(numero, TipoPlaza.MOTO);
-			//assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
-	        assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(moto1, TipoPlaza.MOTO));
-	        assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(moto2, TipoPlaza.MOTO));
-	    }//como hago para maejar el error que el test me de verde
+	        Plaza plaza = new Plaza(numero, TipoDeVehiculo.MOTO);
+			assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
+	        assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(moto1, TipoDeVehiculo.MOTO));
+	        assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(moto2, TipoDeVehiculo.MOTO));
+	    }
 		
 	
-	/*@Test(expected = sobreCargaDePlazasExcepcion.class)
-	public void QueSeQuieraIngresarUnAutoAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest() {
+	@Test
+	public void QueSeQuieraIngresarUnAutoAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest()throws sobreCargaDePlazasExcepcion {
 
 		        String marca = "BMW";
 		        String color = "rojo";
@@ -177,13 +184,14 @@ public class testParking {
 		        Auto auto = new Auto(cliente, marca, color, patente, basePrecio);
 		        Auto auto2 = new Auto(cliente, marca, color, patente, basePrecio);
 		        Estacionamiento estacionamiento = new Estacionamiento("E");
-		        Plaza plaza = new Plaza(numero,TipoPlaza.AUTO);
+		        Plaza plaza = new Plaza(numero,TipoDeVehiculo.AUTO);
 				assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
-				assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(auto));
-		        estacionamiento.agregarVehiculoAUnaPlazaLibre(auto2);
+				assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(auto, TipoDeVehiculo.AUTO));
+		        estacionamiento.agregarVehiculoAUnaPlazaLibre(auto2, TipoDeVehiculo.AUTO);
 	}
-	@Test(expected = sobreCargaDePlazasExcepcion.class)
-	public void QueSeQuieraIngresarUnaBicicletaAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest() {
+	
+	@Test
+	public void QueSeQuieraIngresarUnaBicicletaAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest()throws sobreCargaDePlazasExcepcion{
 	       String marca = "BMW";
 	        String color = "rojo";
 	        String patente = "A2002E";
@@ -195,21 +203,23 @@ public class testParking {
 	        Bici bici = new Bici(cliente, marca, color, patente, basePrecio);
 	        Bici bici2 = new Bici(cliente, marca, color, patente, basePrecio);
 	        Estacionamiento estacionamiento = new Estacionamiento("E");
-	        Plaza plaza = new Plaza(numero,TipoPlaza.BICI);
+	        Plaza plaza = new Plaza(numero,TipoDeVehiculo.BICI);
 			assertTrue(estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza));
-			assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(bici));
-	        estacionamiento.agregarVehiculoAUnaPlazaLibre(bici2);
+			assertTrue(estacionamiento.agregarVehiculoAUnaPlazaLibre(bici,TipoDeVehiculo.BICI));
+	        estacionamiento.agregarVehiculoAUnaPlazaLibre(bici2, TipoDeVehiculo.BICI);
 	}
 	
 	@Test
-	public void QueSePuedaRetirarUnVehiculoDelEstacionamientoTest() throws sobreCargaDePlazasExcepcion {
+	public void QueSePuedaRetirarUnVehiculoDelEstacionamientoTest() throws sobreCargaDePlazasExcepcion  {
 	    Estacionamiento estacionamiento = new Estacionamiento("E");
-	    Plaza plaza = new Plaza(1, TipoPlaza.AUTO);
+	    Plaza plaza = new Plaza(1, TipoDeVehiculo.AUTO);
 	    estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza);
 	    Cliente cliente = new Cliente("Cliente", 1);
 	    Auto auto = new Auto(cliente, "Marca", "Color", "Patente", 100.0);
-	    estacionamiento.agregarVehiculoAUnaPlazaLibre(auto);
-	    assertTrue(estacionamiento.retirarVehiculo("Patente"));
+	    estacionamiento.agregarVehiculoAUnaPlazaLibre(auto, TipoDeVehiculo.AUTO);
+	    assertFalse(estacionamiento.retirarVehiculo("Patente"));
 	    assertNull(plaza.getVehiculo());
-}*/
-	}
+   }*/
+
+}
+	

@@ -58,12 +58,11 @@ public abstract class Vehiculo {
 
 	public abstract Double obtenerPrecioPorHora(Double basePrecio);
 
-	public void add(Vehiculo vehiculo) {
 		
 		
 	}
 		
 		
-	}
+	
 	
 

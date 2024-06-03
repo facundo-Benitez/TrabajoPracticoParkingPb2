@@ -11,13 +11,13 @@ public class Plaza implements Comparable<Plaza> {
 	private Integer numero;
     private List<Vehiculo> vehiculos;
     private Integer CantidadMaximaDePlazasMoto;
-    private TipoPlaza tipo;
+    private TipoDeVehiculo tipo;
     private Vehiculo vehiculo;
     private Set<Plaza>plazas;
    
     
 
-    public Plaza(int numero, TipoPlaza tipo) {
+    public Plaza(int numero, TipoDeVehiculo tipo) {
         this.numero = numero;
         this.tipo = tipo;
         this.vehiculos = new ArrayList<>();
@@ -28,8 +28,18 @@ public class Plaza implements Comparable<Plaza> {
         
     }
 
-    public Integer getNumero() {
+
+	public void setTipo(TipoDeVehiculo tipo) {
+		this.tipo = tipo;
+	}
+
+
+
+	public Integer getNumero() {
 		return numero;
+	}
+	public void ocupar() {
+		
 	}
 
 	public void setNumero(Integer numero) {
@@ -44,7 +54,7 @@ public class Plaza implements Comparable<Plaza> {
         return vehiculos.isEmpty();
     }
 
-    public void asignarVehiculo(Vehiculo vehiculo, TipoPlaza tipo) {
+    public void asignarVehiculo(Vehiculo vehiculo, TipoDeVehiculo tipo) {
         this.vehiculos.add(vehiculo);
     
         
@@ -76,7 +86,7 @@ public class Plaza implements Comparable<Plaza> {
 		this.vehiculo = vehiculo;
 	}
 
-	public TipoPlaza getTipo() {
+	public TipoDeVehiculo getTipo() {
         return tipo;
     }
 
@@ -100,6 +110,12 @@ public class Plaza implements Comparable<Plaza> {
 			return false;
 		Plaza other = (Plaza) obj;
 		return Objects.equals(numero, other.numero);
+	}
+
+
+	public void setEstaOcupado(boolean b) {
+		// TODO Auto-generated method stub
+		
 	}
 	}
     
