@@ -60,7 +60,7 @@ public class EstacionamientoTest {
 	}
 
 	@Test 
-	public void QueSePuedaCrearYAgregarAlSistemaDelEstacionamientoUnaPlazaParaEstacionarUnVehiculo() {	
+	public void QueSePuedaCrearYAgregarAlSistemaUnLugarParaEstacionarUnVehiculo() {	
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -79,7 +79,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueSePuedaObtenerLaCantidadDePlazasTotalesDelEstacionamientoParaHabilitarloAlSistema(){
+	public void QueSePuedaObtenerLaCantidadDePlazasTotalesDelEstacionamiento(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -104,7 +104,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueSePuedaObtenerLaCantidadDePlazasTotalesHabilitadasParaElsistemaDelEstacionamiento(){
+	public void QueSePuedaObtenerLaCantidadDeLugaresTotalesHabilitadosPorElsistemaDelEstacionamiento(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -137,7 +137,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueSePuedaDarDeBajaUnaPlazaAgregadaAlSistemaDeEstacionamiento(){
+	public void QueSePuedaDarDeBajaUnLugarAgregadoAlSistema(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -172,7 +172,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueSePuedaMostrarLaDisponibilidadDeTodasLasPlazasDelEstacionamiento(){
+	public void QueSePuedaMostrarLaDisponibilidadDeTodosLosLugaresDelEstacionamiento(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -208,7 +208,7 @@ public class EstacionamientoTest {
 	}
 
 	@Test
-	public void QueSePuedaObtenerTodasLasPlazasDisponiblesPorUnTipoDeVehiculo(){
+	public void QueSePuedaObtenerTodosLosLugaresDisponiblesPorTipoDeVehiculo(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -281,7 +281,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueSePuedaMostrarTodasDeLasPlazasDelEstacionamientoOcupadas() throws VehiculoNoEncontradoException{
+	public void QueSePuedaMostrarTodosLosLugaresDelEstacionamientoQueSeEncuentrenOcupados() throws VehiculoNoEncontradoException{
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -333,7 +333,7 @@ public class EstacionamientoTest {
 	}
     
 	@Test
-	public void QueSeNoPuedaOcuparUnaPlazaDeEstacionamientoCuandoElVehiculoEsIncompatibleConLaPlaza(){
+	public void QueSeNoPuedaOcuparUnLugarCuandoElVehiculoEsIncompatibleConElTipoDePlaza(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -355,7 +355,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueNoSePuedaOcuparUnaPlazaDeEstacionamientoCuandoEstaOcupada(){
+	public void QueNoSePuedaOcuparUnLugarCuandoEstaOcupado(){
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -380,7 +380,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void QueUnaVezLiberadaUnaPlazaDeEstacionamientoSePuedaHabilitarNuevamente() throws VehiculoNoEncontradoException{
+	public void QueUnaVezLiberadaUnaPlazaSePuedaHabilitarNuevamente() throws VehiculoNoEncontradoException{
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -464,7 +464,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void testQueSePuedanObtenerUnVehiculoPorElNumeroDePlaza() throws VehiculoNoEncontradoException, PlazaNoEncontradaException {
+	public void testQueSePuedaObtenerUnVehiculoPorElNumeroDePlaza() throws VehiculoNoEncontradoException, PlazaNoEncontradaException {
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -489,7 +489,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test
-	public void testQueExistiendoVehiculosEnElEstacionamientoSeBusqueUnAutoPorPatenteExistente() throws VehiculoNoEncontradoException {
+	public void testQueExistiendoUnVehiculoEstacionadoSeBusquePorPatenteYMuestreSuUbicacion() throws VehiculoNoEncontradoException {
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -515,7 +515,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test (expected=PlazaNoEncontradaException.class)
-	public void testQueNoSePuedanObtenerUnVehiculoPorElNumeroDePlazaYLanceUnaException() throws VehiculoNoEncontradoException, PlazaNoEncontradaException {
+	public void testQueNoSePuedaObtenerUnVehiculoPorElNumeroDePlazaYLanceUnaException() throws VehiculoNoEncontradoException, PlazaNoEncontradaException {
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
@@ -540,7 +540,7 @@ public class EstacionamientoTest {
 	}
 	
 	@Test (expected=VehiculoNoEncontradoException.class)
-	public void testQueNoExistiendoVehiculosEnElEstacionamientoSeBusqueUnAutoPorPatenteExistenteYLanceUnaExceptions() throws VehiculoNoEncontradoException {
+	public void testQueNoExistaUnVehiculoEstacionadoSeBusquePorPatenteYMuestreSuUbicacionYLanceUnaExceptions() throws VehiculoNoEncontradoException {
 		String nombre = "E";
 		Integer nroDePlaza=1;
 		String seccion="zona A";
