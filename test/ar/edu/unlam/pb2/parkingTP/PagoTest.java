@@ -70,7 +70,7 @@ public class PagoTest {
     }
 
     @Test
-    public void queSePuedaPagarUnTicketEnEfectivo() throws VehiculoNoEncontradoException {
+    public void queSePuedaPagarUnTicketEnEfectivoYSeGuardeComprobante() throws VehiculoNoEncontradoException {
         // Crear vehículo y asignarle plaza generando el ticket
         String nombre = "E";
         Integer nroDePlaza=1;
@@ -100,12 +100,14 @@ public class PagoTest {
         // Hacer el cobro
         Efectivo comprobanteDePago = new Efectivo(monto);
         boolean cobroRealizado = comprobanteDePago.realizarCobro();
-
+        //Se guarda el comprobante
+        Boolean seGuardo=estacionamiento.guardarComprobante(comprobanteDePago);
         assertTrue(cobroRealizado);
+        assertTrue(seGuardo);
     }
 
     @Test
-    public void queSePuedaPagarUnTicketConTarjeta() throws VehiculoNoEncontradoException {
+    public void queSePuedaPagarUnTicketConTarjetaYSeGuardeComprobante() throws VehiculoNoEncontradoException {
         // Crear vehículo y asignarle plaza generando el ticket
         String nombre = "E";
         Integer nroDePlaza=1;
@@ -135,8 +137,10 @@ public class PagoTest {
         // Hacer el cobro verificando los datos de la tarjeta
         Tarjeta comprobanteDePago = new Tarjeta(monto , "1223455678891223", "331");
         boolean cobroRealizado = comprobanteDePago.realizarCobro();
-
+        //Se guarda el comprobante
+        Boolean seGuardo=estacionamiento.guardarComprobante(comprobanteDePago);
         assertTrue(cobroRealizado);
+        assertTrue(seGuardo);
     }
 
     private void registrarClienteYAsignarlePlaza(int nroPlaza, String nombreCliente, String telefonoCliente) {

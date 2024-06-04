@@ -16,6 +16,7 @@ public class Estacionamiento implements IEstacionamiento{
     private List<Tickets> tickets;
     private Set<HistorialDelEstacionamiento> historiales;
 	private List<ReservaPlaza> reservasPlaza;
+	private List<ComprobanteDePago> comprobantes;
 
 	public Estacionamiento(String nombreEstacionamiento) {
 		this.nombreEstacionamiento = nombreEstacionamiento;
@@ -26,6 +27,7 @@ public class Estacionamiento implements IEstacionamiento{
         this.historiales=new HashSet<>();
 		this.reservasPlaza = new ArrayList<>();
 		this.clientes= new ArrayList<>();
+		this.comprobantes= new ArrayList<>();
 
 	}
 
@@ -284,6 +286,10 @@ public class Estacionamiento implements IEstacionamiento{
 
 	public Integer cantidadDeHistorialesAgregados() {
 		return this.historiales.size();
+	}
+	
+	public Boolean guardarComprobante(ComprobanteDePago nuevo) {
+		return this.comprobantes.add(nuevo);
 	}
 	
 }
