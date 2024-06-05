@@ -28,6 +28,7 @@ public class PlazaVehiculo {
 	public void setVehiculoEnPlaza(Vehiculo vehiculoEnPlaza) {
 		this.vehiculoEnPlaza = vehiculoEnPlaza;
 	}
+	
 
 	@Override
 	public int hashCode() {

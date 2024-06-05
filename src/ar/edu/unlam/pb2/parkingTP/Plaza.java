@@ -38,9 +38,6 @@ public class Plaza implements Comparable<Plaza> {
 	public Integer getNumero() {
 		return numero;
 	}
-	public void ocupar() {
-		
-	}
 
 	public void setNumero(Integer numero) {
 		this.numero = numero;
