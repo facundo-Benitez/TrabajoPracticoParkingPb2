@@ -217,7 +217,7 @@ public class testParking {
 	    estacionamiento.agregarUnaPlazaAlEstacionamiento(plaza);
 	    String patente = "A2002E";
 	    Cliente cliente = new Cliente("Cliente", 1);
-	    Auto auto = new Auto(cliente, "Marca", "Color", patente, 100.0); // Asegúrate de que la patente aquí coincide con la que buscas
+	    Auto auto = new Auto(cliente, "Marca", "Color", patente, 100.0);
 	    estacionamiento.asignarUnVehiculoAUnaPlazaLibre(auto, plaza, TipoDeVehiculo.AUTO);
 	    assertTrue(estacionamiento.retirarVehiculo(patente));
 	    assertNull(plaza.getVehiculo());

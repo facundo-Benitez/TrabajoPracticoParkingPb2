@@ -100,8 +100,8 @@ public class Estacionamiento implements EstacionamientoInter {
 	        Vehiculo vehiculo = entry.getKey();
 	        if (vehiculo.getPatente().equals(patente)) {
 	            Plaza plaza = entry.getValue();
-	            plaza.liberarPlaza(); // Suponiendo que este método actualiza el estado de la plaza a libre.
-	            this.AsignacionVehiculosplazas.remove(vehiculo); // Eliminar la asignación del vehículo
+	            plaza.liberarPlaza(); 
+	            this.AsignacionVehiculosplazas.remove(vehiculo); 
 	            return true;
 	        }
 	    }
