@@ -152,7 +152,7 @@ public class testParking {
 	}
 	
 	 @Test
-	 public void QueSeQuieraIngresarUnaMotoAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest() throws sobreCargaDePlazasExcepcion {
+	 public void QueSeQuieraIngresarUnaMotoAlEstacionamientoPeroEstenTodasLasPlazasOcupadasTest() {
 	        String marca = "BMW";
 	        String color = "rojo";
 	        String patente = "A2002E";

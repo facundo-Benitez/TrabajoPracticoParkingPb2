@@ -57,41 +57,43 @@ public class Estacionamiento implements EstacionamientoInter {
 
 	@Override
 	public boolean asignarUnVehiculoAUnaPlazaLibre(Vehiculo vehiculo, Plaza numeroEstacionamiento,TipoDeVehiculo tipo) {
+		
     	for (Plaza plaza : plazas) {
     	if(plaza.estaLibre()&& ((vehiculo instanceof Auto && plaza.getTipo() == TipoDeVehiculo.AUTO)
 				|| (vehiculo instanceof Moto && plaza.getTipo() == TipoDeVehiculo.MOTO)
 				|| (vehiculo instanceof Camioneta && plaza.getTipo() == TipoDeVehiculo.CAMIONETA)
-				|| (vehiculo instanceof Bici && plaza.getTipo() == TipoDeVehiculo.BICI))) {
+				|| (vehiculo instanceof Bici && plaza.getTipo() == TipoDeVehiculo.BICI))) {	
+    		if(!plaza.ocupado(vehiculo)) {
     		this.AsignacionVehiculosplazas.put(vehiculo, numeroEstacionamiento);
+    		
                 return true;
             }
         }
-       
+		}
+		
         return false;
     }
     
     public Plaza obtenerEstacionamientoDeAutoPorPatente2(String patente) {
         for (Map.Entry<Vehiculo, Plaza> entry : this.AsignacionVehiculosplazas.entrySet()) {
             Vehiculo vehiculo = entry.getKey();
-            if (vehiculo.getPatente().equals(patente)) {
-            	for (Plaza plaza : plazas) {					
-                return plaza;
+            Plaza plazaAsignada = entry.getValue();
+            if (vehiculo.getPatente().equals(patente)) {            				
+                return plazaAsignada;
             }
-        }
-      }
+        }      
         return null;
     }
    
 	public Plaza buscarBici(String marca, String color, TipoDeVehiculo tipo) {
 		for (Map.Entry<Vehiculo, Plaza> entry : this.AsignacionVehiculosplazas.entrySet()) {
             Vehiculo vehiculo = entry.getKey();
-            for (Plaza plaza : plazas) {
-            if (vehiculo.getMarca().equals(marca)&&vehiculo.getColor().equals(color)&&(vehiculo instanceof Bici && plaza.getTipo() == TipoDeVehiculo.BICI)) {
+            Plaza plazaAsignada = entry.getValue();
+            if (vehiculo.getMarca().equals(marca)&&vehiculo.getColor().equals(color)&&(vehiculo instanceof Bici && plazaAsignada.getTipo() == TipoDeVehiculo.BICI)) {
             						
-                return plaza;
+                return plazaAsignada;
             }
-        }
-      }
+        }     
         return null;
     }
 

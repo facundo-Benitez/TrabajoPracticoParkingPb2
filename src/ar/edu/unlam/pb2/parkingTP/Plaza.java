@@ -22,7 +22,6 @@ public class Plaza implements Comparable<Plaza> {
         this.tipo = tipo;
         this.vehiculos = new ArrayList<>();
         this.CantidadMaximaDePlazasMoto = CantidadMaximaDePlazasMoto;
-        this.vehiculo = vehiculo;
         this.plazas = new TreeSet<>();
         
         
@@ -62,6 +61,10 @@ public class Plaza implements Comparable<Plaza> {
 
     public void liberarPlaza() {
         this.vehiculos.clear();
+    }
+    public boolean ocupado(Vehiculo vehiculo) {
+  	  
+        return this.vehiculos.contains(vehiculo);
     }
    
 
@@ -108,76 +111,6 @@ public class Plaza implements Comparable<Plaza> {
 		Plaza other = (Plaza) obj;
 		return Objects.equals(numero, other.numero);
 	}
-
-
-	public void setEstaOcupado(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	}
     
-
-//
-//public class Plaza implements Comparable<Plaza> {
-//    private Integer numero;
-//    private List<Vehiculo> vehiculos;
-//    private TipoPlaza tipo;
-//
-//    public Plaza(int numero, TipoPlaza tipo) {
-//        this.numero = numero;
-//        this.tipo = tipo;
-//        this.vehiculos = new ArrayList<>();
-//    }
-//
-//    public Integer getNumero() {
-//        return numero;
-//    }
-//
-//    public void setNumero(Integer numero) {
-//        this.numero = numero;
-//    }
-//
-//    public boolean estaLibre() {
-//        return vehiculos.isEmpty();
-//    }
-//
-//    public void asignarVehiculo(Vehiculo vehiculo) {
-//        if (estaLibre()) {
-//            this.vehiculos.add(vehiculo);
-//        }
-//    }
-//
-//    public void liberarPlaza() {
-//        this.vehiculos.clear();
-//    }
-//
-//    public List<Vehiculo> getVehiculos() {
-//        return vehiculos;
-//    }
-//
-//    public TipoPlaza getTipo() {
-//        return tipo;
-//    }
-//
-//    @Override
-//    public int compareTo(Plaza otraPlaza) {
-//        return Integer.compare(this.numero, otraPlaza.numero);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(numero);
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (this == obj)
-//            return true;
-//        if (obj == null)
-//            return false;
-//        if (getClass() != obj.getClass())
-//            return false;
-//        Plaza other = (Plaza) obj;
-//        return Objects.equals(numero, other.numero);
-//    }
-//}
